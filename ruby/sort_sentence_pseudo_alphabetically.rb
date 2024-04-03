@@ -17,13 +17,9 @@ def sort sentence
   return words.sort.join(' ') if words.all? {|w| w.downcase[0] == w[0]}
   return words.sort! { |a, b| b <=> a }.join(' ') if words.all? {|w| w.upcase[0] == w[0]}
 
-  lowcase_words = []
-  upcase_words = []
+  lowcase_words = words.select { |w| w.upcase[0] != w[0] }.sort.join(' ')
+  upcase_words = words - lowcase_words.sort! { |a, b| b <=> a }.join(' ')
 
-  words.each do |w|
-    w.upcase[0] != w[0] ? lowcase_words << w : upcase_words << w
-  end
-
-  lowcase_words.sort.join(' ') + ' ' + upcase_words.sort! { |a, b| b <=> a }.join(' ')
+  lowcase_words + ' ' + upcase_words
 end
 
